@@ -1,237 +1,235 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>barang murah SE online raya</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MJ-Shops | Fashion Sultan Harga Rakyat</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* CSS ASLI MJ-SHOPS */
+        :root { --primary: #4caf50; --bg: #f4fff4; --text: #1f3d1f; --card: #ffffff; --header-bg: #8fd694; }
+        body.mode-dark { --bg: #121212; --text: #e0e0e0; --card: #1f1f1f; --primary: #45a049; --header-bg: #1e1e1e; }
+        body.mode-blue { --bg: #e3f2fd; --text: #0d47a1; --card: #ffffff; --primary: #2196f3; --header-bg: #bbdefb; }
+        body.mode-gold { --bg: #fdfaf1; --text: #403d39; --card: #ffffff; --primary: #d4a373; --header-bg: #faedcd; }
+        body.mode-pink { --bg: #fdf2f8; --text: #831843; --card: #ffffff; --primary: #ec4899; --header-bg: #fce7f3; }
 
-<style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#f4fff4;color:#1f3d1f}
-body.dark{background:#121212;color:#e0e0e0}
-header,footer{background:#8fd694;padding:16px;text-align:center}
-body.dark header,body.dark footer{background:#1e1e1e}
-.container{padding:16px}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px}
-.card{background:#fff;border-radius:10px;padding:12px;box-shadow:0 2px 6px rgba(0,0,0,.1);text-align:center}
-body.dark .card,body.dark #cart-items{background:#1f1f1f;color:#fff}
-.card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
-.price{font-weight:bold;color:#2e7d32}
-.btn{padding:8px;background:#4caf50;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-top:6px;width:100%}
-.btn.red{background:#e53935}
-.btn.gray{background:#777}
-.btn:disabled{background:#aaa;cursor:not-allowed}
-#cart{position:fixed;bottom:20px;right:20px;background:#4caf50;color:#fff;padding:12px 16px;border-radius:50px;cursor:pointer}
-#cart-items{position:fixed;bottom:80px;right:20px;background:#fff;padding:12px;border-radius:10px;max-width:320px;display:none}
-#cart-items ul{list-style:none;padding:0;margin:0}
-#cart-items li{display:flex;justify-content:space-between;margin-bottom:6px}
-input,select{width:100%;padding:8px;margin:6px 0}
-.hidden{display:none}
-small{font-size:11px;color:#555}
-</style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { margin: 0; background: var(--bg); color: var(--text); transition: 0.3s; }
+        
+        header { background: var(--header-bg); padding: 30px 15px; text-align: center; border-bottom: 5px solid var(--primary); }
+        .header-logo { width: 300px; max-width: 90%; height: auto; margin-bottom: 10px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15)); }
+        .tagline { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+        .header-desc { max-width: 700px; margin: 0 auto 20px; font-size: 14px; line-height: 1.5; opacity: 0.9; }
+
+        .theme-switcher { display: flex; justify-content: center; gap: 8px; overflow-x: auto; padding-bottom: 15px; }
+        .mode-btn { border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 11px; font-weight: bold; white-space: nowrap; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
+
+        .container { padding: 20px; max-width: 1200px; margin: auto; }
+        .nav-bar { display: flex; gap: 10px; margin-bottom: 25px; }
+        select { padding: 12px; border-radius: 12px; border: 2px solid var(--primary); flex-grow: 1; background: var(--card); color: var(--text); font-weight: bold; }
+
+        .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+        .card { background: var(--card); border-radius: 20px; padding: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.05); text-align: center; border: 1px solid rgba(0,0,0,0.05); transition: 0.3s; }
+        .card img { width: 100%; height: 280px; object-fit: cover; border-radius: 15px; margin-bottom: 12px; background: #eee; }
+        .price { font-weight: 900; color: var(--primary); font-size: 1.3em; margin: 8px 0; }
+
+        .btn { padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; font-size: 13px; }
+        .btn-admin { font-size: 10px; padding: 6px; margin-top: 5px; }
+
+        footer { background: #111; color: #fff; padding: 50px 20px; text-align: center; margin-top: 60px; border-top: 6px solid var(--primary); }
+        .info-box h4 { color: var(--primary); margin-bottom: 10px; font-size: 14px; }
+        .info-box p { font-size: 13px; color: #ccc; }
+
+        .hidden { display: none; }
+        @media (max-width: 600px) { 
+            .products { grid-template-columns: repeat(2, 1fr); gap: 12px; } 
+            .card img { height: 250px; }
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
-<h2>barang murah SE online raya</h2>
-<p>Baju & Celana Anak • Remaja • Dewasa</p>
-<button class="btn gray" onclick="toggleDark()">🌙 Dark Mode</button>
+    <img src="https://Mj-Shops.biz.id/public/photo/logo-Mj-Shops.png" class="header-logo">
+    <p class="tagline">Style Mewah, Harga Ramah</p>
+    <p class="header-desc">Koleksi fashion terbaik untuk semua kalangan. Kualitas Butik, Harga Tetangga.</p>
+    <div class="theme-switcher">
+        <button class="mode-btn" style="background:#8fd694" onclick="setTheme('')">Original</button>
+        <button class="mode-btn" style="background:#222; color:#fff" onclick="setTheme('mode-dark')">Dark</button>
+        <button class="mode-btn" style="background:#2196f3; color:#fff" onclick="setTheme('mode-blue')">Blue</button>
+        <button class="mode-btn" style="background:#d4a373" onclick="setTheme('mode-gold')">Gold</button>
+        <button class="mode-btn" style="background:#ec4899; color:#fff" onclick="setTheme('mode-pink')">Pink</button>
+    </div>
 </header>
 
 <div class="container">
+    <div class="nav-bar">
+        <select id="filter" onchange="renderProducts()">
+            <option value="All">🔍 Pilih Kategori Produk...</option>
+            <option>Anak</option><option>Remaja</option><option>Dewasa</option>
+        </select>
+        <button id="admin-login-btn" class="btn" style="background:#546e7a; width:auto; margin:0" onclick="loginAdmin()">🔑 Admin</button>
+        <button id="admin-logout-btn" class="btn hidden" style="background:#d32f2f; width:auto; margin:0" onclick="logoutAdmin()">🚪 Keluar</button>
+    </div>
 
-<select id="filter" onchange="renderProducts()">
-<option value="All">Semua</option>
-<option>Anak</option>
-<option>Remaja</option>
-<option>Dewasa</option>
-</select>
+    <div id="admin-panel" class="hidden" style="background: var(--card); padding: 25px; border-radius: 20px; border: 2px dashed var(--primary); margin-bottom: 30px;">
+        <h3 id="form-title" style="margin-top:0">Update Stok Produk</h3>
+        <input id="p-name" placeholder="Nama Barang" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+        <input id="p-price" type="number" placeholder="Harga (Rp)" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+        <input id="p-stock" type="number" placeholder="Stok" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+        <select id="p-cat" style="width:100%; padding:10px; margin-bottom:10px;"><option>Anak</option><option>Remaja</option><option>Dewasa</option></select>
+        <input type="file" id="p-img" accept="image/*" style="margin-bottom:15px; font-size:12px;">
+        <input type="hidden" id="edit-old-name">
+        <button class="btn" id="btn-save" onclick="saveProduct()">🚀 Simpan Perubahan</button>
+        <button class="btn hidden" style="background:#666; margin-top:8px" id="btn-cancel" onclick="resetForm()">Batal Edit</button>
+    </div>
 
-<h3>Produk</h3>
-<div id="products" class="products"></div>
-
-<h3>Admin</h3>
-<div id="admin-login">
-<input id="admin-pass" placeholder="Password admin">
-<button class="btn" onclick="login()">Login</button>
+    <div id="products-box" class="products">Memuat koleksi terbaik...</div>
 </div>
 
-<div id="admin-panel" class="hidden">
-<input id="p-name" placeholder="Nama Produk">
-<input id="p-price" type="number" placeholder="Harga">
-<input id="p-stock" type="number" placeholder="Stok">
-<input type="file" id="p-img" accept="image/*">
-<select id="p-cat">
-<option>Anak</option><option>Remaja</option><option>Dewasa</option>
-</select>
-<button class="btn" onclick="addProduct()">Tambah Produk</button>
-<button class="btn gray" onclick="exportCSV()">Export Order CSV</button>
-<button class="btn red" onclick="logout()">Logout</button>
-</div>
-
-</div>
-
-<div id="cart" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
-
-<div id="cart-items">
-<h3>Keranjang</h3>
-<ul id="cart-list"></ul>
-<div>Total: Rp<span id="cart-total">0</span></div>
-<button class="btn" onclick="checkout()">Checkout WhatsApp</button>
-</div>
-
-<footer>© 2026 barang murah SE online raya</footer>
+<footer>
+    <div class="footer-info">
+        <div class="info-box">
+            <img src="https://Mj-Shops.biz.id/public/photo/logo-Mj-Shops.png" style="width:150px; margin-bottom:10px;">
+            <p>Pusat fashion berkualitas dengan harga terjangkau. Real pict & Amanah.</p>
+        </div>
+        <div class="info-box">
+            <h4>Kontak</h4>
+            <p>WA: 0856-9145-1094</p>
+        </div>
+    </div>
+    <p style="margin-top:40px; font-size:11px; color:#555;">&copy; 2026 MJ-Shops Official.</p>
+</footer>
 
 <script>
-const ADMIN_PASS="admin123";
+    const SB_URL = "https://xaupckapbzjrdoccrhzo.supabase.co";
+    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhhdXBja2FwYnpqcmRvY2NyaHpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNTc0MjMsImV4cCI6MjA4NTYzMzQyM30.RapBv6CdlxGuCg-S8lioMX3192tZOuRDprOhP3UefuU";
+    const _supa = supabase.createClient(SB_URL, SB_KEY);
+    
+    let isAdmin = false, isEditing = false, products = [];
 
-let products=JSON.parse(localStorage.getItem("products"))||[];
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
-let orders=JSON.parse(localStorage.getItem("orders"))||[];
+    function setTheme(m) { 
+        document.body.className = m; 
+        localStorage.setItem("mj_theme", m); 
+    }
+    
+    window.onload = () => { 
+        fetchData(); 
+        if(localStorage.getItem("mj_theme")) document.body.className = localStorage.getItem("mj_theme"); 
+    };
 
-const productsBox=document.getElementById("products");
+    async function fetchData() {
+        const { data, error } = await _supa.from('products').select('*');
+        if (error) return;
+        products = data;
+        renderProducts();
+    }
 
-function save(){
-localStorage.setItem("products",JSON.stringify(products));
-localStorage.setItem("cart",JSON.stringify(cart));
-localStorage.setItem("orders",JSON.stringify(orders));
-}
+    function renderProducts() {
+        const f = document.getElementById("filter").value;
+        const filtered = products.filter(p => f === "All" || p.category === f);
+        document.getElementById("products-box").innerHTML = filtered.map(p => `
+            <div class="card">
+                <img src="${p.image_url}" onerror="this.src='https://via.placeholder.com/300x450?text=Fashion'">
+                <div style="font-weight:bold; font-size:14px; min-height:40px;">${p.name}</div>
+                <div class="price">Rp${(p.price || 0).toLocaleString()}</div>
+                <button class="btn" onclick="window.open('https://wa.me/6285691451094?text=Halo, mau order: ${p.name}')">Beli via WA</button>
+                ${isAdmin ? `
+                    <div style="display:flex; gap:5px; margin-top:5px">
+                        <button class="btn btn-admin" style="background:#1976d2" onclick="startEdit('${p.name}')">Edit</button>
+                        <button class="btn btn-admin" style="background:#d32f2f" onclick="delProd('${p.name}')">Hapus</button>
+                    </div>
+                ` : ""}
+            </div>
+        `).join('');
+    }
 
-function renderProducts(){
-productsBox.innerHTML="";
-const f=filter.value;
-products.filter(p=>f==="All"||p.category===f).forEach((p,i)=>{
-productsBox.innerHTML+=`
-<div class="card">
-<img src="${p.img}">
-<b>${p.name}</b>
-<div class="price">Rp${p.price.toLocaleString()}</div>
-<small>Stok: ${p.stock}</small>
-<button class="btn" ${p.stock<=0?"disabled":""} onclick="addToCart(${i})">
-${p.stock<=0?"Habis":"Tambah"}
-</button>
-${adminPanel.classList.contains("hidden")?"":`
-<button class="btn gray" onclick="edit(${i})">Edit</button>
-<button class="btn red" onclick="del(${i})">Hapus</button>`}
-</div>`;
-});
-}
+    async function saveProduct() {
+        const name = document.getElementById('p-name').value;
+        const price = parseInt(document.getElementById('p-price').value);
+        const stock = parseInt(document.getElementById('p-stock').value);
+        const cat = document.getElementById('p-cat').value;
+        const file = document.getElementById('p-img').files[0];
+        const btn = document.getElementById('btn-save');
 
-function addProduct(){
-const name=pName.value.trim();
-const price=+pPrice.value;
-const stock=+pStock.value;
-const cat=pCat.value;
-const file=pImg.files[0];
-if(!name||price<=0||stock<0||!file){alert("Data invalid");return;}
-const r=new FileReader();
-r.onload=e=>{
-products.push({name,price,stock,category:cat,img:e.target.result});
-save();renderProducts();
-pName.value=pPrice.value=pStock.value=pImg.value="";
-};
-r.readAsDataURL(file);
-}
+        if (!name || !price) return alert("Isi Nama & Harga!");
+        btn.disabled = true; 
+        btn.innerText = "⏳ Proses...";
 
-function edit(i){
-const n=prompt("Nama:",products[i].name);
-const p=+prompt("Harga:",products[i].price);
-const s=+prompt("Stok:",products[i].stock);
-if(!n||p<=0||s<0)return;
-products[i].name=n;
-products[i].price=p;
-products[i].stock=s;
-save();renderProducts();
-}
+        let imgUrl = isEditing ? products.find(p => p.name === document.getElementById('edit-old-name').value).image_url : "";
 
-function del(i){
-if(confirm("Hapus produk?")){
-products.splice(i,1);
-save();renderProducts();
-}
-}
+        if (file) {
+            const fileName = Date.now() + "_" + file.name;
+            await _supa.storage.from('photo-produk').upload(fileName, file);
+            const { data: link } = _supa.storage.from('photo-produk').getPublicUrl(fileName);
+            imgUrl = link.publicUrl;
+        }
 
-function addToCart(i){
-cart.push(products[i]);
-updateCart();
-}
+        const payload = { name, price, stock, category: cat, image_url: imgUrl };
 
-function updateCart(){
-cartList.innerHTML="";
-let t=0;
-cart.forEach((x,i)=>{
-t+=x.price;
-cartList.innerHTML+=`<li>${x.name}<span style="color:red;cursor:pointer" onclick="remove(${i})">×</span></li>`;
-});
-cartCount.innerText=cart.length;
-cartTotal.innerText=t.toLocaleString();
-save();
-}
+        if (isEditing) { 
+            await _supa.from('products').update(payload).eq('name', document.getElementById('edit-old-name').value); 
+        } else { 
+            await _supa.from('products').insert([payload]); 
+        }
 
-function remove(i){cart.splice(i,1);updateCart();}
-function toggleCart(){cartItems.style.display=cartItems.style.display==="block"?"none":"block"}
+        alert("✅ Data Berhasil Diperbarui!");
+        resetForm(); // Kosongkan form
+        fetchData(); // Update tampilan tanpa refresh
+        btn.disabled = false;
+        btn.innerText = "🚀 Simpan Perubahan";
+    }
 
-function checkout(){
-if(!cart.length){alert("Keranjang kosong");return;}
-const invoice="INV-"+Date.now();
-cart.forEach(item=>{
-const p=products.find(x=>x.name===item.name);
-if(p) p.stock--;
-});
-orders.push({
-invoice,
-items:cart.map(x=>x.name).join(", "),
-total:cart.reduce((a,b)=>a+b.price,0),
-date:new Date().toLocaleString()
-});
-save();
-let msg=`Halo saya mau order%0AInvoice: ${invoice}%0A`;
-cart.forEach(p=>msg+=`- ${p.name} Rp${p.price}%0A`);
-msg+=`Total: Rp${cart.reduce((a,b)=>a+b.price,0)}%0A`;
-cart=[];
-updateCart();
-renderProducts();
-window.open(`https://wa.me/6285691451094?text=${msg}`);
-}
+    function startEdit(name) {
+        const p = products.find(x => x.name === name);
+        document.getElementById('p-name').value = p.name;
+        document.getElementById('p-price').value = p.price;
+        document.getElementById('p-stock').value = p.stock;
+        document.getElementById('p-cat').value = p.category;
+        document.getElementById('edit-old-name').value = p.name;
+        document.getElementById('form-title').innerText = "Edit: " + p.name;
+        document.getElementById('btn-save').innerText = "🆙 Update Data";
+        document.getElementById('btn-cancel').classList.remove('hidden');
+        isEditing = true;
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
 
-function exportCSV(){
-if(!orders.length){alert("Belum ada order");return;}
-let csv="Invoice,Items,Total,Tanggal\n";
-orders.forEach(o=>{
-csv+=`${o.invoice},"${o.items}",${o.total},"${o.date}"\n`;
-});
-const blob=new Blob([csv],{type:"text/csv"});
-const a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="orders.csv";
-a.click();
-}
+    function resetForm() {
+        isEditing = false;
+        document.getElementById('p-name').value = "";
+        document.getElementById('p-price').value = "";
+        document.getElementById('p-stock').value = "";
+        document.getElementById('p-img').value = "";
+        document.getElementById('form-title').innerText = "Update Stok Produk";
+        document.getElementById('btn-save').innerText = "🚀 Simpan Perubahan";
+        document.getElementById('btn-cancel').classList.add('hidden');
+    }
 
-function login(){
-if(adminPass.value===ADMIN_PASS){
-adminPanel.classList.remove("hidden");
-adminLogin.classList.add("hidden");
-renderProducts();
-}else alert("Password salah");
-}
+    function loginAdmin() { 
+        if(prompt("Pass Admin:") === "admin123") { 
+            isAdmin = true; 
+            document.getElementById("admin-panel").classList.remove("hidden"); 
+            document.getElementById("admin-login-btn").classList.add("hidden"); 
+            document.getElementById("admin-logout-btn").classList.remove("hidden"); 
+            renderProducts(); 
+        } 
+    }
 
-function logout(){
-adminPanel.classList.add("hidden");
-adminLogin.classList.remove("hidden");
-renderProducts();
-}
+    function logoutAdmin() {
+        isAdmin = false;
+        document.getElementById("admin-panel").classList.add("hidden"); 
+        document.getElementById("admin-login-btn").classList.remove("hidden"); 
+        document.getElementById("admin-logout-btn").classList.add("hidden"); 
+        renderProducts();
+        alert("Logout Berhasil");
+    }
 
-function toggleDark(){
-document.body.classList.toggle("dark");
-localStorage.setItem("dark",document.body.classList.contains("dark"));
-}
-if(localStorage.getItem("dark")==="true"){
-document.body.classList.add("dark");
-}
-
-renderProducts();updateCart();
+    async function delProd(name) { 
+        if(confirm("Hapus " + name + "?")) { 
+            await _supa.from('products').delete().eq('name', name); 
+            fetchData(); 
+        } 
+    }
 </script>
-
 </body>
 </html>
