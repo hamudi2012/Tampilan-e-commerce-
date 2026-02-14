@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MJ-Shops | Fashion Sultan Harga Rakyat</title>
+    <title>MJ-Shops Sukabumi | Fashion Sultan Harga Rakyat</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* CSS ASLI MJ-SHOPS */
         :root { --primary: #4caf50; --bg: #f4fff4; --text: #1f3d1f; --card: #ffffff; --header-bg: #8fd694; }
         body.mode-dark { --bg: #121212; --text: #e0e0e0; --card: #1f1f1f; --primary: #45a049; --header-bg: #1e1e1e; }
         body.mode-blue { --bg: #e3f2fd; --text: #0d47a1; --card: #ffffff; --primary: #2196f3; --header-bg: #bbdefb; }
@@ -14,45 +13,42 @@
         body.mode-pink { --bg: #fdf2f8; --text: #831843; --card: #ffffff; --primary: #ec4899; --header-bg: #fce7f3; }
 
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { margin: 0; background: var(--bg); color: var(--text); transition: 0.3s; }
+        body { margin: 0; background: var(--bg); color: var(--text); transition: 0.3s; padding-bottom: 60px; }
         
         header { background: var(--header-bg); padding: 30px 15px; text-align: center; border-bottom: 5px solid var(--primary); }
-        .header-logo { width: 300px; max-width: 90%; height: auto; margin-bottom: 10px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.15)); }
+        .header-logo { width: 300px; max-width: 90%; height: auto; margin-bottom: 10px; cursor: pointer; }
         .tagline { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
         .header-desc { max-width: 700px; margin: 0 auto 20px; font-size: 14px; line-height: 1.5; opacity: 0.9; }
 
         .theme-switcher { display: flex; justify-content: center; gap: 8px; overflow-x: auto; padding-bottom: 15px; }
         .mode-btn { border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 11px; font-weight: bold; white-space: nowrap; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
 
-        .container { padding: 20px; max-width: 1200px; margin: auto; }
-        .nav-bar { display: flex; gap: 10px; margin-bottom: 25px; }
-        select { padding: 12px; border-radius: 12px; border: 2px solid var(--primary); flex-grow: 1; background: var(--card); color: var(--text); font-weight: bold; }
-
+        .container { padding: 20px; max-width: 1200px; margin: auto; min-height: 60vh; }
         .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-        .card { background: var(--card); border-radius: 20px; padding: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.05); text-align: center; border: 1px solid rgba(0,0,0,0.05); transition: 0.3s; }
-        .card img { width: 100%; height: 280px; object-fit: cover; border-radius: 15px; margin-bottom: 12px; background: #eee; }
+        .card { background: var(--card); border-radius: 20px; padding: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.05); text-align: center; border: 1px solid rgba(0,0,0,0.05); position: relative; }
+        .card img { width: 100%; height: 280px; object-fit: cover; border-radius: 15px; margin-bottom: 12px; cursor: pointer; }
         .price { font-weight: 900; color: var(--primary); font-size: 1.3em; margin: 8px 0; }
 
-        .btn { padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; font-size: 13px; }
-        .btn-admin { font-size: 10px; padding: 6px; margin-top: 5px; }
+        .btn { padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; font-size: 13px; transition: 0.2s; }
+        .btn:hover { opacity: 0.8; }
+        .btn-admin-small { font-size: 10px; padding: 5px; margin-top: 5px; }
+        .floating-cart { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: white; padding: 15px 20px; border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); cursor: pointer; z-index: 100; font-weight: bold; border: 2px solid white; }
+
+        .map-container { margin-top: 40px; background: var(--card); padding: 20px; border-radius: 20px; box-shadow: 0 6px 15px rgba(0,0,0,0.05); }
+        .map-frame { width: 100%; height: 300px; border-radius: 15px; border: none; }
 
         footer { background: #111; color: #fff; padding: 50px 20px; text-align: center; margin-top: 60px; border-top: 6px solid var(--primary); }
-        .info-box h4 { color: var(--primary); margin-bottom: 10px; font-size: 14px; }
-        .info-box p { font-size: 13px; color: #ccc; }
-
         .hidden { display: none; }
-        @media (max-width: 600px) { 
-            .products { grid-template-columns: repeat(2, 1fr); gap: 12px; } 
-            .card img { height: 250px; }
-        }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; background: var(--card); color: var(--text); }
+        @media (max-width: 600px) { .products { grid-template-columns: repeat(2, 1fr); gap: 12px; } .card img { height: 220px; } }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="https://Mj-Shops.biz.id/public/photo/logo-Mj-Shops.png" class="header-logo">
-    <p class="tagline">Style Mewah, Harga Ramah</p>
-    <p class="header-desc">Koleksi fashion terbaik untuk semua kalangan. Kualitas Butik, Harga Tetangga.</p>
+    <img src="https://Mj-Shops.biz.id/public/photo/logo-Mj-Shops.png" class="header-logo" onclick="showPage('home')">
+    <p class="tagline">Style Mewah, Harga Ramah - Spesial Sukabumi</p>
+    <p class="header-desc">Pusat Fashion Lokal Parungkuda. Kirim se-Sukabumi lebih cepat, ongkir lebih hemat!</p>
     <div class="theme-switcher">
         <button class="mode-btn" style="background:#8fd694" onclick="setTheme('')">Original</button>
         <button class="mode-btn" style="background:#222; color:#fff" onclick="setTheme('mode-dark')">Dark</button>
@@ -63,66 +59,158 @@
 </header>
 
 <div class="container">
-    <div class="nav-bar">
-        <select id="filter" onchange="renderProducts()">
-            <option value="All">🔍 Pilih Kategori Produk...</option>
-            <option>Anak</option><option>Remaja</option><option>Dewasa</option>
-        </select>
-        <button id="admin-login-btn" class="btn" style="background:#546e7a; width:auto; margin:0" onclick="loginAdmin()">🔑 Admin</button>
-        <button id="admin-logout-btn" class="btn hidden" style="background:#d32f2f; width:auto; margin:0" onclick="logoutAdmin()">🚪 Keluar</button>
+    <div id="page-home">
+        <div style="display:flex; gap:10px; margin-bottom:25px;">
+            <select id="filter" onchange="renderProducts()" style="margin-bottom:0; font-weight:bold; border:2px solid var(--primary);">
+                <option value="All">🔍 Pilih Kategori Produk...</option>
+                <option>Anak</option><option>Remaja</option><option>Dewasa</option>
+            </select>
+            <button id="admin-login-btn" class="btn" style="background:#546e7a; width:auto;" onclick="showPage('login')">🔑 Admin</button>
+        </div>
+
+        <div id="admin-panel" class="hidden" style="background: var(--card); padding: 25px; border-radius: 20px; border: 2px dashed var(--primary); margin-bottom: 30px;">
+            <h3 id="form-title">Tambah Produk Baru</h3>
+            <input id="p-id" type="hidden">
+            <input id="p-name" placeholder="Nama Barang">
+            <input id="p-price" type="number" placeholder="Harga (Rp)">
+            <select id="p-cat">
+                <option value="">-- Pilih Kategori --</option>
+                <option>Anak</option><option>Remaja</option><option>Dewasa</option>
+            </select>
+            <input type="file" id="p-img" accept="image/*">
+            <div style="display:flex; gap:10px;">
+                <button class="btn" id="btn-save" onclick="saveProduct()">🚀 Simpan Data</button>
+                <button class="btn" style="background:#666;" onclick="resetForm()">Batal</button>
+            </div>
+            <button class="btn" style="background:#d32f2f; margin-top:8px" onclick="logoutAdmin()">🚪 Keluar Admin</button>
+        </div>
+
+        <div id="products-box" class="products">Memuat koleksi terbaik...</div>
+
+        <div class="map-container">
+            <h3 style="margin-top:0">📍 Lokasi Toko Kami (Sukabumi)</h3>
+            <p style="font-size: 14px; margin-bottom: 15px;">Kp Cipanggulaan RT 007 RW 003, Pondokasolandeuh, Parungkuda, Sukabumi, Jawa Barat.</p>
+            <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.594738711475!2d106.7718!3d-6.839!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTAnMjAuNCJTIDEwNiw0NicxOC41IkU!5e0!3m2!1sid!2sid!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+        </div>
     </div>
 
-    <div id="admin-panel" class="hidden" style="background: var(--card); padding: 25px; border-radius: 20px; border: 2px dashed var(--primary); margin-bottom: 30px;">
-        <h3 id="form-title" style="margin-top:0">Update Stok Produk</h3>
-        <input id="p-name" placeholder="Nama Barang" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
-        <input id="p-price" type="number" placeholder="Harga (Rp)" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
-        <input id="p-stock" type="number" placeholder="Stok" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
-        <select id="p-cat" style="width:100%; padding:10px; margin-bottom:10px;"><option>Anak</option><option>Remaja</option><option>Dewasa</option></select>
-        <input type="file" id="p-img" accept="image/*" style="margin-bottom:15px; font-size:12px;">
-        <input type="hidden" id="edit-old-name">
-        <button class="btn" id="btn-save" onclick="saveProduct()">🚀 Simpan Perubahan</button>
-        <button class="btn hidden" style="background:#666; margin-top:8px" id="btn-cancel" onclick="resetForm()">Batal Edit</button>
+    <div id="page-login" class="hidden">
+        <div style="max-width:400px; margin: 50px auto; background:var(--card); padding:30px; border-radius:20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <h2 style="text-align:center">Admin MJ-Shops</h2>
+            <input type="email" id="login-email" placeholder="Email Admin">
+            <input type="password" id="login-pass" placeholder="Password">
+            <button class="btn" onclick="handleLogin()">Masuk Sekarang</button>
+            <button onclick="showPage('home')" style="background:none; border:none; color:gray; width:100%; margin-top:15px; cursor:pointer;">Kembali ke Beranda</button>
+        </div>
     </div>
 
-    <div id="products-box" class="products">Memuat koleksi terbaik...</div>
+    <div id="page-detail" class="hidden">
+        <button onclick="showPage('home')" class="btn" style="width:auto; background:#666; margin-bottom:20px;">⬅ Kembali</button>
+        <div id="detail-content"></div>
+    </div>
+
+    <div id="page-cart" class="hidden">
+        <button onclick="showPage('home')" class="btn" style="width:auto; background:#666; margin-bottom:20px;">⬅ Lanjut Belanja</button>
+        <h2>🛒 Keranjang Kamu</h2>
+        <div id="cart-list"></div>
+        <div id="cart-total" style="font-size:20px; font-weight:bold; margin:20px 0; text-align:right;"></div>
+        
+        <div style="background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid #ddd; margin-bottom: 20px;">
+            <h3 style="margin-top:0">Detail Pengiriman</h3>
+            <input type="text" id="cust-name" placeholder="Nama Lengkap">
+            <input type="text" id="cust-wa" placeholder="Nomor WhatsApp">
+            <select id="cust-delivery">
+                <option value="">-- Pilih Kurir --</option>
+                <option>COD Parungkuda / Sekitarnya</option>
+                <option>JNE</option><option>J&T</option><option>SiCepat</option><option>Ambil Sendiri</option>
+            </select>
+            <textarea id="cust-address" placeholder="Alamat Lengkap" style="min-height:80px;"></textarea>
+        </div>
+
+        <button class="btn" style="background:#25d366; font-size:16px;" onclick="checkoutWA()">WhatsApp Checkout 🚀</button>
+    </div>
 </div>
 
 <footer>
-    <div class="footer-info">
-        <div class="info-box">
-            <img src="https://Mj-Shops.biz.id/public/photo/logo-Mj-Shops.png" style="width:150px; margin-bottom:10px;">
-            <p>Pusat fashion berkualitas dengan harga terjangkau. Real pict & Amanah.</p>
-        </div>
-        <div class="info-box">
-            <h4>Kontak</h4>
-            <p>WA: 0856-9145-1094</p>
-        </div>
+    <div style="max-width:800px; margin:auto">
+        <img src="https://Mj-Shops.biz.id/public/photo/logo-Mj-Shops.png" style="width:150px; margin-bottom:10px;">
+        <p><b>MJ-Shops Sukabumi</b></p>
+        <p>Kp Cipanggulaan RT 007/003, Pondokasolandeuh, Parungkuda, Sukabumi.</p>
+        <p>Pusat fashion berkualitas dengan harga terjangkau. Real pict & Amanah.</p>
+        <p>WA: 0856-9145-1094</p>
+        <p style="font-size:11px; color:#555; margin-top:20px;">&copy; 2026 MJ-Shops Official - Kebanggaan Warga Sukabumi.</p>
     </div>
-    <p style="margin-top:40px; font-size:11px; color:#555;">&copy; 2026 MJ-Shops Official.</p>
 </footer>
+
+<div class="floating-cart" onclick="showPage('cart')">🛒 <span id="cart-count">0</span></div>
 
 <script>
     const SB_URL = "https://xaupckapbzjrdoccrhzo.supabase.co";
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhhdXBja2FwYnpqcmRvY2NyaHpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNTc0MjMsImV4cCI6MjA4NTYzMzQyM30.RapBv6CdlxGuCg-S8lioMX3192tZOuRDprOhP3UefuU";
     const _supa = supabase.createClient(SB_URL, SB_KEY);
     
-    let isAdmin = false, isEditing = false, products = [];
+    let products = [], cart = JSON.parse(localStorage.getItem("mj_cart")) || [], isAdmin = false, isEditing = false;
 
-    function setTheme(m) { 
-        document.body.className = m; 
-        localStorage.setItem("mj_theme", m); 
-    }
-    
-    window.onload = () => { 
+    function setTheme(m) { document.body.className = m; localStorage.setItem("mj_theme", m); }
+
+    window.onload = async () => { 
         fetchData(); 
+        updateCartUI();
         if(localStorage.getItem("mj_theme")) document.body.className = localStorage.getItem("mj_theme"); 
+        
+        // CEK APAKAH SUDAH LOGIN SEBELUMNYA
+        const { data: { session } } = await _supa.auth.getSession();
+        if(session) {
+            isAdmin = true;
+            document.getElementById('admin-panel').classList.remove('hidden');
+            document.getElementById('admin-login-btn').classList.add('hidden');
+        }
     };
 
     async function fetchData() {
         const { data, error } = await _supa.from('products').select('*');
-        if (error) return;
-        products = data;
+        if (!error) { products = data; renderProducts(); }
+    }
+
+    function showPage(page) {
+        ['home', 'detail', 'cart', 'login'].forEach(p => {
+            const el = document.getElementById('page-'+p);
+            if(el) el.classList.add('hidden');
+        });
+        document.getElementById('page-'+page).classList.remove('hidden');
+        if(page === 'cart') renderCart();
+        window.scrollTo(0,0);
+    }
+
+    // LOGIN DENGAN SUPABASE AUTH
+    async function handleLogin() {
+        const email = document.getElementById('login-email').value;
+        const pass = document.getElementById('login-pass').value;
+
+        const { data, error } = await _supa.auth.signInWithPassword({
+            email: email,
+            password: pass,
+        });
+
+        if (error) {
+            alert("Gagal Login: " + error.message);
+        } else {
+            isAdmin = true;
+            alert("Selamat datang Boss MJ!");
+            document.getElementById('admin-panel').classList.remove('hidden');
+            document.getElementById('admin-login-btn').classList.add('hidden');
+            showPage('home');
+            renderProducts();
+        }
+    }
+
+    async function logoutAdmin() {
+        await _supa.auth.signOut();
+        isAdmin = false;
+        document.getElementById('admin-panel').classList.add('hidden');
+        document.getElementById('admin-login-btn').classList.remove('hidden');
         renderProducts();
+        alert("Berhasil keluar.");
     }
 
     function renderProducts() {
@@ -130,106 +218,154 @@
         const filtered = products.filter(p => f === "All" || p.category === f);
         document.getElementById("products-box").innerHTML = filtered.map(p => `
             <div class="card">
-                <img src="${p.image_url}" onerror="this.src='https://via.placeholder.com/300x450?text=Fashion'">
+                <img src="${p.image_url}" onclick="viewDetail('${p.id}')" onerror="this.src='https://via.placeholder.com/300x450'">
                 <div style="font-weight:bold; font-size:14px; min-height:40px;">${p.name}</div>
                 <div class="price">Rp${(p.price || 0).toLocaleString()}</div>
-                <button class="btn" onclick="window.open('https://wa.me/6285691451094?text=Halo, mau order: ${p.name}')">Beli via WA</button>
+                <button class="btn" onclick="addToCart('${p.id}')">🛒 Keranjang</button>
                 ${isAdmin ? `
-                    <div style="display:flex; gap:5px; margin-top:5px">
-                        <button class="btn btn-admin" style="background:#1976d2" onclick="startEdit('${p.name}')">Edit</button>
-                        <button class="btn btn-admin" style="background:#d32f2f" onclick="delProd('${p.name}')">Hapus</button>
+                    <div style="display:flex; gap:5px; margin-top:5px;">
+                        <button class="btn btn-admin-small" style="background:#1976d2" onclick="editProd('${p.id}')">Edit</button>
+                        <button class="btn btn-admin-small" style="background:#d32f2f" onclick="deleteProd('${p.id}', '${p.name}')">Hapus</button>
                     </div>
                 ` : ""}
             </div>
         `).join('');
     }
 
-    async function saveProduct() {
-        const name = document.getElementById('p-name').value;
-        const price = parseInt(document.getElementById('p-price').value);
-        const stock = parseInt(document.getElementById('p-stock').value);
-        const cat = document.getElementById('p-cat').value;
-        const file = document.getElementById('p-img').files[0];
-        const btn = document.getElementById('btn-save');
-
-        if (!name || !price) return alert("Isi Nama & Harga!");
-        btn.disabled = true; 
-        btn.innerText = "⏳ Proses...";
-
-        let imgUrl = isEditing ? products.find(p => p.name === document.getElementById('edit-old-name').value).image_url : "";
-
-        if (file) {
-            const fileName = Date.now() + "_" + file.name;
-            await _supa.storage.from('photo-produk').upload(fileName, file);
-            const { data: link } = _supa.storage.from('photo-produk').getPublicUrl(fileName);
-            imgUrl = link.publicUrl;
-        }
-
-        const payload = { name, price, stock, category: cat, image_url: imgUrl };
-
-        if (isEditing) { 
-            await _supa.from('products').update(payload).eq('name', document.getElementById('edit-old-name').value); 
-        } else { 
-            await _supa.from('products').insert([payload]); 
-        }
-
-        alert("✅ Data Berhasil Diperbarui!");
-        resetForm(); // Kosongkan form
-        fetchData(); // Update tampilan tanpa refresh
-        btn.disabled = false;
-        btn.innerText = "🚀 Simpan Perubahan";
+    function viewDetail(id) {
+        const p = products.find(x => x.id == id);
+        document.getElementById('detail-content').innerHTML = `
+            <div style="display:flex; flex-wrap:wrap; gap:30px; background:var(--card); padding:20px; border-radius:20px;">
+                <img src="${p.image_url}" style="width:100%; max-width:400px; border-radius:15px;">
+                <div style="flex:1; min-width:300px;">
+                    <h1>${p.name}</h1>
+                    <p class="price" style="font-size:2em">Rp${p.price.toLocaleString()}</p>
+                    <p><b>Kategori:</b> ${p.category}</p>
+                    <p>Kualitas premium MJ-Shops Sukabumi. Bahan nyaman dipakai dan stylish.</p>
+                    <button class="btn" style="padding:20px; font-size:16px" onclick="addToCart('${p.id}')">TAMBAH KE KERANJANG</button>
+                </div>
+            </div>
+        `;
+        showPage('detail');
     }
 
-    function startEdit(name) {
-        const p = products.find(x => x.name === name);
+    function addToCart(id) {
+        const p = products.find(x => x.id == id);
+        const item = cart.find(i => i.id == id);
+        if(item) item.qty++; else cart.push({...p, qty: 1});
+        localStorage.setItem("mj_cart", JSON.stringify(cart));
+        updateCartUI();
+        alert("Dimasukkan ke keranjang!");
+    }
+
+    function updateCartUI() { document.getElementById('cart-count').innerText = cart.reduce((a,b) => a + b.qty, 0); }
+
+    function renderCart() {
+        const list = document.getElementById('cart-list');
+        let total = 0;
+        if(cart.length === 0) { list.innerHTML = "Keranjang masih kosong."; return; }
+        list.innerHTML = cart.map((item, idx) => {
+            total += item.price * item.qty;
+            return `
+                <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px; background:var(--card); padding:10px; border-radius:10px; border:1px solid #ddd;">
+                    <img src="${item.image_url}" width="60" height="60" style="object-fit:cover; border-radius:5px">
+                    <div style="flex:1"><b>${item.name}</b><br>Rp${item.price.toLocaleString()} x ${item.qty}</div>
+                    <button onclick="removeItem(${idx})" style="background:red; color:white; border:none; padding:8px; border-radius:5px; cursor:pointer;">Hapus</button>
+                </div>
+            `;
+        }).join('');
+        document.getElementById('cart-total').innerText = "Total Bayar: Rp" + total.toLocaleString();
+    }
+
+    function removeItem(i) { cart.splice(i, 1); localStorage.setItem("mj_cart", JSON.stringify(cart)); updateCartUI(); renderCart(); }
+
+    async function checkoutWA() {
+        if(cart.length === 0) return alert("Keranjang kosong!");
+        const name = document.getElementById('cust-name').value;
+        const wa = document.getElementById('cust-wa').value;
+        const delivery = document.getElementById('cust-delivery').value;
+        const address = document.getElementById('cust-address').value;
+        if(!name || !wa || !address || !delivery) return alert("Lengkapi data pengiriman bro!");
+
+        const totalHarga = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+        const { error } = await _supa.from('pesanan').insert([{
+            nama_pembeli: name,
+            whatsapp: wa,
+            kurir: delivery,
+            alamat: address,
+            total_harga: totalHarga,
+            detail_pesanan: JSON.stringify(cart)
+        }]);
+
+        if(error) console.log("Gagal simpan DB, lanjut WA...");
+
+        let msg = "*PESANAN BARU MJ-SHOPS SUKABUMI*\n---\n";
+        msg += `Nama: ${name}\nWA: ${wa}\nKurir: ${delivery}\nAlamat: ${address}\n---\n`;
+        cart.forEach(i => msg += `- ${i.name} (${i.qty}x)\n`);
+        msg += `\n*TOTAL: Rp${totalHarga.toLocaleString()}*`;
+        window.open("https://wa.me/6285691451094?text=" + encodeURIComponent(msg));
+    }
+
+    function editProd(id) {
+        const p = products.find(x => x.id == id);
+        isEditing = true;
+        document.getElementById('p-id').value = p.id;
         document.getElementById('p-name').value = p.name;
         document.getElementById('p-price').value = p.price;
-        document.getElementById('p-stock').value = p.stock;
         document.getElementById('p-cat').value = p.category;
-        document.getElementById('edit-old-name').value = p.name;
-        document.getElementById('form-title').innerText = "Edit: " + p.name;
-        document.getElementById('btn-save').innerText = "🆙 Update Data";
-        document.getElementById('btn-cancel').classList.remove('hidden');
-        isEditing = true;
+        document.getElementById('form-title').innerText = "Edit Produk: " + p.name;
+        document.getElementById('btn-save').innerText = "💾 Update Data";
         window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    async function deleteProd(id, name) {
+        if(confirm("Hapus " + name + " dari katalog?")) {
+            await _supa.from('products').delete().eq('id', id);
+            fetchData();
+        }
+    }
+
+    async function saveProduct() {
+        const id = document.getElementById('p-id').value;
+        const name = document.getElementById('p-name').value;
+        const price = parseInt(document.getElementById('p-price').value);
+        const cat = document.getElementById('p-cat').value;
+        const file = document.getElementById('p-img').files[0];
+
+        if(!name || !price || !cat) return alert("Semua kolom wajib diisi!");
+
+        let imgUrl = isEditing ? products.find(p => p.id == id).image_url : "https://via.placeholder.com/300";
+
+        if(file) {
+            const fileName = Date.now() + "_" + file.name;
+            await _supa.storage.from('photo-produk').upload(fileName, file);
+            const { data } = _supa.storage.from('photo-produk').getPublicUrl(fileName);
+            imgUrl = data.publicUrl;
+        }
+
+        const payload = { name, price, category: cat, image_url: imgUrl };
+
+        if(isEditing) {
+            await _supa.from('products').update(payload).eq('id', id);
+        } else {
+            await _supa.from('products').insert([payload]);
+        }
+        
+        resetForm();
+        fetchData();
     }
 
     function resetForm() {
         isEditing = false;
+        document.getElementById('p-id').value = "";
         document.getElementById('p-name').value = "";
         document.getElementById('p-price').value = "";
-        document.getElementById('p-stock').value = "";
+        document.getElementById('p-cat').value = "";
         document.getElementById('p-img').value = "";
-        document.getElementById('form-title').innerText = "Update Stok Produk";
-        document.getElementById('btn-save').innerText = "🚀 Simpan Perubahan";
-        document.getElementById('btn-cancel').classList.add('hidden');
-    }
-
-    function loginAdmin() { 
-        if(prompt("Pass Admin:") === "admin123") { 
-            isAdmin = true; 
-            document.getElementById("admin-panel").classList.remove("hidden"); 
-            document.getElementById("admin-login-btn").classList.add("hidden"); 
-            document.getElementById("admin-logout-btn").classList.remove("hidden"); 
-            renderProducts(); 
-        } 
-    }
-
-    function logoutAdmin() {
-        isAdmin = false;
-        document.getElementById("admin-panel").classList.add("hidden"); 
-        document.getElementById("admin-login-btn").classList.remove("hidden"); 
-        document.getElementById("admin-logout-btn").classList.add("hidden"); 
-        renderProducts();
-        alert("Logout Berhasil");
-    }
-
-    async function delProd(name) { 
-        if(confirm("Hapus " + name + "?")) { 
-            await _supa.from('products').delete().eq('name', name); 
-            fetchData(); 
-        } 
+        document.getElementById('form-title').innerText = "Tambah Produk Baru";
+        document.getElementById('btn-save').innerText = "🚀 Simpan Data";
     }
 </script>
 </body>
-</html>
+            </html>
+            
